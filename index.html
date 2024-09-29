@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Plan Generator</title>
+</head>
+<body>
+    <h1>Business Plan Generator</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="businessDescription">Upload your business description (.txt):</label><br>
+        <input type="file" id="businessDescription" name="file" accept=".txt" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <h3 id="status"></h3>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const fileInput = document.getElementById('businessDescription');
+
+            if (fileInput.files.length === 0) {
+                alert('Please upload a .txt file');
+                return;
+            }
+
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                document.getElementById('status').innerText = 'Business plan generated successfully!';
+                document.getElementById('output').innerText = result.businessPlan;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('status').innerText = 'Error generating business plan';
+            }
+        };
+    </script>
+</body>
+</html>
