@@ -178,4 +178,26 @@
             },
             navajo: {
                 formTitle: "Díí Nahat’á Biyinígíí",
-                companyNameLabel: "Béeso
+                companyNameLabel: "Béeso",
+                // Add the rest of the Navajo translations here
+            }
+            // Add more translations as needed
+        };
+
+        function translatePage() {
+            const selectedLanguage = document.getElementById('language').value;
+
+            document.getElementById('formTitle').textContent = translations[selectedLanguage].formTitle;
+            document.getElementById('companyNameLabel').textContent = translations[selectedLanguage].companyNameLabel;
+            document.getElementById('companyNameExplanation').textContent = translations[selectedLanguage].companyNameExplanation;
+            document.getElementById('descriptionLabel').textContent = translations[selectedLanguage].descriptionLabel;
+            document.getElementById('descriptionExplanation').textContent = translations[selectedLanguage].descriptionExplanation;
+            document.getElementById('marketSectorLabel').textContent = translations[selectedLanguage].marketSectorLabel;
+            document.getElementById('marketSectorExplanation').textContent = translations[selectedLanguage].marketSectorExplanation;
+            document.getElementById('fileLabel').textContent = translations[selectedLanguage].fileLabel;
+            document.getElementById('fileExplanation').textContent = translations[selectedLanguage].fileExplanation;
+            document.getElementById('submitButton').textContent = translations[selectedLanguage].submitButton;
+        }
+    </script>
+</body>
+</html>
