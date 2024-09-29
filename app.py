@@ -8,9 +8,9 @@ app = Flask(__name__)
 # Configure AWS credentials using environment variables
 aws_client = boto3.client(
     'bedrock',
-    region_name='us-east-1',
-    aws_access_key_id=os.getenv('AKIA4J73YFP6JFCXEIM3'),
-    aws_secret_access_key=os.getenv('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')
+    region_name='region',
+    aws_access_key_id=os.getenv('Access key'),
+    aws_secret_access_key=os.getenv('Secret access key')
 )
 
 AGENT_ARN = 'arn:aws:bedrock:us-east-1:846099655676:agent/82VW39AALI'
