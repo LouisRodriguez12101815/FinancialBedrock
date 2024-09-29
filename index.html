@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Plan Generator</title>
+    <style>
+        .bubble-set {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .bubble {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .bubble input {
+            display: none;
+        }
+        .bubble.selected {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <h1>Business Plan Generator</h1>
@@ -32,15 +52,14 @@
             try {
                 const response = await fetch('/api/upload', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
                 });
 
                 const result = await response.json();
-                document.getElementById('status').innerText = 'Business plan generated successfully!';
-                document.getElementById('output').innerText = result.businessPlan;
+                document.getElementById('output').textContent = JSON.stringify(result, null, 2);
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('status').innerText = 'Error generating business plan';
+                document.getElementById('output').textContent = 'Error submitting form';
             }
         };
     </script>
