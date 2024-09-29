@@ -1,136 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Plan Generator</title>
+    <title>Generador de Plan de Negocios</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 10px;
+            background-color: #e0f7fa; /* Light blue background */
+            color: #333; /* Dark gray text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            font-size: 18px;
+        }
+        h1 {
+            color: #00796b;
+            text-align: center;
+            font-size: 32px;
         }
         label {
             font-weight: bold;
+            margin-top: 10px;
+            display: block;
         }
         textarea, select, input[type="text"], input[type="file"], input[type="number"] {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 12px 0;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        select {
+            width: 50%; /* Adjust the width of the dropdown */
         }
         button {
-            background-color: #4CAF50;
+            background-color: #0288d1;
             color: white;
-            padding: 15px 20px;
+            padding: 15px;
             border: none;
             cursor: pointer;
             width: 100%;
+            border-radius: 5px;
+            font-size: 18px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #0277bd;
+        }
+        .explanation {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Toggle Language Button -->
-    <button id="toggleLanguage" style="margin-bottom: 20px;">Switch to Spanish</button>
+    <!-- Language Selection Dropdown -->
+    <label for="language">Seleccionar Idioma:</label>
+    <select id="language" onchange="translatePage()">
+        <option value="es">Español</option>
+        <option value="en">English</option>
+        <option value="tagalog">Tagalog</option>
+        <option value="vietnamese">Tiếng Việt</option>
+        <option value="arabic">العربية</option>
+        <option value="navajo">Navajo</option>
+    </select>
 
-    <h1 id="formTitle">Generate a Business Plan</h1>
-
+    <h1 id="formTitle">Generador de Plan de Negocios</h1>
     <form action="http://127.0.0.1:5000/api/upload" method="post" enctype="multipart/form-data">
-        <!-- Company Name Input -->
-        <label for="company_name" id="companyNameLabel">Company Name:</label>
-        <input type="text" id="company_name" name="company_name" placeholder="Enter your company name" required><br><br>
+        
+        <!-- Company Name -->
+        <label for="company_name" id="companyNameLabel">Nombre de la Empresa:</label>
+        <p class="explanation" id="companyNameExplanation">Escriba el nombre de su empresa. Este nombre aparecerá en su plan de negocios.</p>
+        <input type="text" id="company_name" name="company_name" placeholder="Ingrese el nombre de su empresa" required><br>
 
-        <!-- Company Description (500 characters limit) -->
-        <label for="description" id="descriptionLabel">Company Description (max 500 characters):</label><br>
-        <textarea id="description" name="description" rows="4" maxlength="500" placeholder="Describe your company in up to 500 characters..." required></textarea><br><br>
+        <!-- Company Description -->
+        <label for="description" id="descriptionLabel">Descripción de la Empresa (máximo 500 caracteres):</label>
+        <p class="explanation" id="descriptionExplanation">Describa brevemente su empresa, su misión y visión. Máximo 500 caracteres.</p>
+        <textarea id="description" name="description" maxlength="500" placeholder="Escriba una breve descripción de su empresa" required></textarea><br>
 
-        <!-- Market Sector Drop-Down -->
-        <label for="market_sector" id="marketSectorLabel">Market Sector:</label>
+        <!-- Market Sector -->
+        <label for="market_sector" id="marketSectorLabel">Sector del Mercado:</label>
+        <p class="explanation" id="marketSectorExplanation">Seleccione el sector del mercado en el que opera su empresa.</p>
         <select id="market_sector" name="market_sector" required>
-            <option value="">Select a market sector</option>
-            <option value="technology">Technology</option>
-            <option value="finance">Finance</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="education">Education</option>
-            <option value="retail">Retail</option>
-            <option value="other">OTHER</option>
-        </select><br><br>
-
-        <!-- Revenue Projections -->
-        <label for="revenue_projections" id="revenueLabel">Revenue Projections:</label>
-        <input type="number" id="revenue_projections" name="revenue_projections" placeholder="Enter projected revenue ($)" required><br><br>
-
-        <!-- Income Repayment Plan -->
-        <label for="repayment_plan" id="repaymentLabel">How will the business generate enough income to repay the loan?</label><br>
-        <textarea id="repayment_plan" name="repayment_plan" rows="4" placeholder="Describe how you will repay the loan" required></textarea><br><br>
+            <option value="">Seleccione un sector del mercado</option>
+            <option value="technology">Tecnología</option>
+            <option value="finance">Finanzas</option>
+            <option value="healthcare">Salud</option>
+            <option value="education">Educación</option>
+            <option value="retail">Comercio Minorista</option>
+        </select><br>
 
         <!-- File Upload -->
-        <label for="file" id="fileLabel">Upload a File (.txt):</label>
-        <input type="file" id="file" name="file" accept=".txt" required><br><br>
+        <label for="file" id="fileLabel">Subir un Archivo (.txt):</label>
+        <p class="explanation" id="fileExplanation">Suba un archivo de texto que contenga información adicional sobre su empresa.</p>
+        <input type="file" id="file" name="file" accept=".txt" required><br>
 
         <!-- Submit Button -->
-        <button type="submit" id="submitButton">Generate Plan</button>
+        <button type="submit" id="submitButton">Generar Plan</button>
     </form>
 
     <script>
-        // Language translation object
+        // Translation data for all languages
         const translations = {
-            en: {
-                formTitle: "Generate a Business Plan",
-                companyNameLabel: "Company Name:",
-                descriptionLabel: "Company Description (max 500 characters):",
-                marketSectorLabel: "Market Sector:",
-                revenueLabel: "Revenue Projections:",
-                repaymentLabel: "How will the business generate enough income to repay the loan?",
-                fileLabel: "Upload a File (.txt):",
-                submitButton: "Generate Plan",
-                toggleLanguage: "Switch to Spanish",
-                companyPlaceholder: "Enter your company name",
-                descriptionPlaceholder: "Describe your company in up to 500 characters...",
-                repaymentPlaceholder: "Describe how you will repay the loan",
-            },
             es: {
-                formTitle: "Generar un Plan de Negocios",
+                formTitle: "Generador de Plan de Negocios",
                 companyNameLabel: "Nombre de la Empresa:",
+                companyNameExplanation: "Escriba el nombre de su empresa. Este nombre aparecerá en su plan de negocios.",
                 descriptionLabel: "Descripción de la Empresa (máximo 500 caracteres):",
+                descriptionExplanation: "Describa brevemente su empresa, su misión y visión. Máximo 500 caracteres.",
                 marketSectorLabel: "Sector del Mercado:",
-                revenueLabel: "Proyecciones de Ingresos:",
-                repaymentLabel: "¿Cómo generará ingresos suficientes para pagar el préstamo?",
-                fileLabel: "Cargar un Archivo (.txt):",
-                submitButton: "Generar Plan",
-                toggleLanguage: "Cambiar a Inglés",
-                companyPlaceholder: "Ingrese el nombre de su empresa",
-                descriptionPlaceholder: "Describa su empresa en hasta 500 caracteres...",
-                repaymentPlaceholder: "Describa cómo pagará el préstamo",
-            }
-        };
-
-        // Current language state
-        let currentLanguage = 'en';
-
-        // Toggle language function
-        document.getElementById('toggleLanguage').onclick = function () {
-            currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
-
-            // Update text content and placeholders
-            document.getElementById('formTitle').textContent = translations[currentLanguage].formTitle;
-            document.getElementById('companyNameLabel').textContent = translations[currentLanguage].companyNameLabel;
-            document.getElementById('descriptionLabel').textContent = translations[currentLanguage].descriptionLabel;
-            document.getElementById('marketSectorLabel').textContent = translations[currentLanguage].marketSectorLabel;
-            document.getElementById('revenueLabel').textContent = translations[currentLanguage].revenueLabel;
-            document.getElementById('repaymentLabel').textContent = translations[currentLanguage].repaymentLabel;
-            document.getElementById('fileLabel').textContent = translations[currentLanguage].fileLabel;
-            document.getElementById('submitButton').textContent = translations[currentLanguage].submitButton;
-            document.getElementById('toggleLanguage').textContent = translations[currentLanguage].toggleLanguage;
-
-            // Update placeholders
-            document.getElementById('company_name').placeholder = translations[currentLanguage].companyPlaceholder;
-            document.getElementById('description').placeholder = translations[currentLanguage].descriptionPlaceholder;
-            document.getElementById('repayment_plan').placeholder = translations[currentLanguage].repaymentPlaceholder;
-        };
-    </script>
-</body>
-</html>
+                marketSectorExplanation: "Seleccione el sector del mercado en el que opera su empresa.",
+                fileLabel: "Subir un Archivo (.txt):",
+                fileExplanation: "Suba un archivo de texto que contenga información adicional sobre su empresa.",
+                submitButton: "Generar Plan"
+            },
+            en: {
+                formTitle: "Business Plan Generator",
+                companyNameLabel: "Company Name:",
+                companyNameExplanation: "Enter the name of your company. This will appear on your business plan.",
+                descriptionLabel: "Company Description (max 500 characters):",
+                descriptionExplanation: "Briefly describe your company, mission, and vision. Maximum 500 characters.",
+                marketSectorLabel: "Market Sector:",
+                marketSectorExplanation: "Select the market sector in which your business operates.",
+                fileLabel: "Upload a File (.txt):",
+                fileExplanation: "Upload a text file with additional information about your company.",
+                submitButton: "Generate Plan"
+            },
+            tagalog: {
+                formTitle: "Tagapaglikha ng Plano ng Negosyo",
+                companyNameLabel: "Pangalan ng Kumpanya:",
+                companyNameExplanation: "Ilagay ang pangalan ng iyong kumpanya. Ito ay lilitaw sa iyong plano ng negosyo.",
+                descriptionLabel: "Paglalarawan ng Kumpanya (max 500 na karakter):",
+                descriptionExplanation: "Maikling ilarawan ang iyong kumpanya, misyon, at layunin. Maximum 500 na karakter.",
+                marketSectorLabel: "Sektor ng Pamilihan:",
+                marketSectorExplanation: "Piliin ang sektor ng pamilihan kung saan nagpapatakbo ang iyong negosyo.",
+                fileLabel: "Mag-upload ng File (.txt):",
+                fileExplanation: "Mag-upload ng isang text file na naglalaman ng karagdagang impormasyon tungkol sa iyong kumpanya.",
+                submitButton: "Lumikha ng Plano"
+            },
+            vietnamese: {
+                formTitle: "Trình Tạo Kế Hoạch Kinh Doanh",
+                companyNameLabel: "Tên Công Ty:",
+                companyNameExplanation: "Nhập tên công ty của bạn. Tên này sẽ xuất hiện trong kế hoạch kinh doanh của bạn.",
+                descriptionLabel: "Mô tả công ty (tối đa 500 ký tự):",
+                descriptionExplanation: "Mô tả ngắn gọn về công ty, sứ mệnh và tầm nhìn của bạn. Tối đa 500 ký tự.",
+                marketSectorLabel: "Lĩnh Vực Kinh Doanh:",
+                marketSectorExplanation: "Chọn lĩnh vực thị trường mà doanh nghiệp của bạn hoạt động.",
+                fileLabel: "Tải Tệp Lên (.txt):",
+                fileExplanation: "Tải lên một tệp văn bản chứa thông tin bổ sung về công ty của bạn.",
+                submitButton: "Tạo Kế Hoạch"
+            },
+            arabic: {
+                formTitle: "مولد خطة العمل",
+                companyNameLabel: "اسم الشركة:",
+                companyNameExplanation: "أدخل اسم شركتك. سيظهر هذا الاسم في خطة عملك.",
+                descriptionLabel: "وصف الشركة (بحد أقصى 500 حرفًا):",
+                descriptionExplanation: "قم بوصف شركتك بإيجاز، الرسالة والرؤية. الحد الأقصى 500 حرف.",
+                marketSectorLabel: "قطاع السوق:",
+                marketSectorExplanation: "حدد قطاع السوق الذي تعمل فيه شركتك.",
+                fileLabel: "تحميل ملف (.txt):",
+                fileExplanation: "قم بتحميل ملف نصي يحتوي على معلومات إضافية حول شركتك.",
+                submitButton: "إنشاء خطة"
+            },
+            navajo: {
+                formTitle: "Díí Nahat’á Biyinígíí",
+                companyNameLabel: "Béeso
