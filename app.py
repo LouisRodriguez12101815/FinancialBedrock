@@ -9,11 +9,11 @@ app = Flask(__name__)
 aws_client = boto3.client(
     'bedrock',
     region_name='region',
-    aws_access_key_id=os.getenv('Access key'),
-    aws_secret_access_key=os.getenv('Secret access key')
+    aws_access_key_id=empty,
+    aws_secret_access_key=empty
 )
 
-AGENT_ARN = 'arn:aws:bedrock:us-east-1:846099655676:agent/82VW39AALI'
+AGENT_ARN = 'empty'
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
